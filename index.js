@@ -10,11 +10,13 @@ const db = mongoose.connection
 db.on('error', (err) => console.error(err))
 db.once('open', ()=> console.log('db connected'))
 
-//user routes
+//routes
 const userRouter = require('./routes/users')
+const productRouter = require('./routes/products')
 
 app.use(express.json())
 app.use(userRouter)
+app.use(productRouter)
 
 app.listen(process.env.PORT, ()=> {
     console.log("Server is running !");
