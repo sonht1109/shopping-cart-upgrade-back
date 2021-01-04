@@ -3,11 +3,11 @@ const router = express.Router()
 const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 
-const userController = require("../controller/userController")
+const {findUser} = require("../controller/userController")
 const auth = require("../middlewares/auth")
 
 // get all user
-router.get('/users', async(req, res) => {
+router.get('/users', auth, async(req, res) => {
     try{
         const users = await User.find()
         res.json(users)
@@ -18,7 +18,7 @@ router.get('/users', async(req, res) => {
 })
 
 //create a user
-router.post('/user/signup', async (req, res) => {
+router.post('/user/signup', auth, async (req, res) => {
     const {body} = req;
     try {
         const user = new User({
@@ -38,10 +38,36 @@ router.post('/user/signup', async (req, res) => {
 })
 
 //update a part
-// router.patch('/user/')
+router.patch('/user/me', auth, findUser, async(req, res)=> {
+    const {body} = req
+    try {
+        const user = res.user
+        if(body.phone) user.phone = body.phone 
+        if(body.newPassword) user.password = body.newPassword
+        await user.save()
+        res.status(200).json({message: "User updated !"})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+//delete users
+router.delete('/user/delete', auth, async(req, res)=> {
+    const data = req.body.data;
+    try{
+        await Promise.all(data.map(async item => {
+            await User.deleteOne({id: item})
+        }))
+        .then(()=>res.status(200).json({message: "Users deleted !"}))
+        .catch((err) => res.status(404).json({message: err.message}))
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
+})
 
 //auth login
-router.post('/user/login', userController.findUser, async (req, res)=> {
+router.post('/user/login', findUser, async (req, res)=> {
     try{
         const user = res.user
         if(user == null){
@@ -59,7 +85,12 @@ router.post('/user/login', userController.findUser, async (req, res)=> {
 
 //get info
 router.get('/user/me', auth, async (req, res) => {
-    res.send(req.user)
+    try{
+        res.send(req.user)
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
 })
 
 

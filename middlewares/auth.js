@@ -4,11 +4,10 @@ const User = require("../models/User")
 const auth = async(req, res, next) => {
     const token = req.header('Authorization').replace('Bearer ', '')
     const verifyData = jwt.verify(token, process.env.KEY)
-
     try {
         const user = await User.findOne({email: verifyData.email, token: token})
         if(user == null){
-            throw new Error()
+            res.status(404).json({message: "Cannot find user !"})
         }
         req.user = user
         req.token = token
