@@ -18,7 +18,7 @@ router.get('/users', auth, async(req, res) => {
 })
 
 //create a user
-router.post('/user/signup', auth, async (req, res) => {
+router.post('/user/signup', async (req, res) => {
     const {body} = req;
     try {
         const user = new User({
@@ -56,7 +56,7 @@ router.delete('/user/delete', auth, async(req, res)=> {
     const data = req.body;
     try{
         await Promise.all(data.map(async item => {
-            await User.deleteOne({id: item})
+            await User.deleteOne({_id: item})
         }))
         .then(()=>res.status(200).json({message: "Users deleted !"}))
         .catch((err) => res.status(404).json({message: err.message}))

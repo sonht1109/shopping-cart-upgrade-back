@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
+        type: mongoose.Types.ObjectId,
         required: true
     },
     inStock: {

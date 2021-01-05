@@ -35,7 +35,7 @@ router.delete("/product/delete", auth, async(req, res) => {
     try {
         const idArr = req.body
         await Promise.all(idArr.map(async item => {
-            await Product.deleteOne({id: item})
+            await Product.deleteOne({_id: item})
         }))
         .then(()=> res.status(200).json({message: "Products deleted !"}))
         .catch(err => res.status(404).json({message: err.message}))
