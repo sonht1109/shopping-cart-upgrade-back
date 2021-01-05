@@ -5,7 +5,7 @@ module.exports.findProduct = async(req, res, next)=> {
     try{
         const id = req.params.id
         product = await Product.findById(id)
-        if(product == null){
+        if(!product){
             res.status(404).json({message: "Cannot find product !"})
         }
     }

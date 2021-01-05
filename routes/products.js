@@ -33,7 +33,7 @@ router.get("/products", auth, async(req, res) => {
 //delete
 router.delete("/product/delete", auth, async(req, res) => {
     try {
-        const idArr = req.body.data
+        const idArr = req.body
         await Promise.all(idArr.map(async item => {
             await Product.deleteOne({id: item})
         }))

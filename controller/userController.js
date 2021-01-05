@@ -6,7 +6,7 @@ module.exports.findUser = async function (req, res, next){
     let user
     try{
         user = await User.findOne({email})
-        if(user == null){
+        if(!user){
             return res.status(404).json("Invalid user !")
         }
         const checkPassword = await bcrypt.compare(password, user.password)

@@ -53,7 +53,7 @@ router.patch('/user/me', auth, findUser, async(req, res)=> {
 
 //delete users
 router.delete('/user/delete', auth, async(req, res)=> {
-    const data = req.body.data;
+    const data = req.body;
     try{
         await Promise.all(data.map(async item => {
             await User.deleteOne({id: item})
