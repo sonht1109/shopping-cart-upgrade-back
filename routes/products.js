@@ -2,6 +2,7 @@ const express = require('express')
 const { findProduct } = require('../controller/productController')
 const auth = require('../middlewares/auth')
 const router = express.Router()
+const mongoose = require("mongoose")
 const Product = require('../models/Product')
 
 //add a new product
@@ -20,10 +21,22 @@ router.post("/product/add", async (req, res)=> {
 })
 
 //get all products
-router.get("/products", auth, async(req, res) => {
+router.get("/products", async(req, res) => {
     try{
-        const collections = await Product.find()
-        res.json(collections)
+        const products = await Product.find()
+        res.json(products)
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
+})
+
+//get product by category
+router.get("/products/:cateId", async(req, res)=>{
+    const cateId = req.params.cateId
+    try{
+        const products = await Product.find({category: mongoose.Types.ObjectId(cateId)})
+        res.json(products)
     }
     catch(err){
         res.status(500).json({message: err.message})

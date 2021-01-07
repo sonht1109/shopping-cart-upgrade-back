@@ -6,7 +6,7 @@ const auth = async(req, res, next) => {
     const verifyData = jwt.verify(token, process.env.KEY)
     try {
         const user = await User.findOne({email: verifyData.email, token: token})
-        if(user == null){
+        if(!user){
             res.status(404).json({message: "Cannot find user !"})
         }
         req.user = user
