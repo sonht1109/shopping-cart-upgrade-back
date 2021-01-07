@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
 require("dotenv").config()
+const cors = require('cors')
 
 const url = process.env.URL
 
@@ -14,6 +15,8 @@ db.once('open', ()=> console.log('db connected'))
 const userRouter = require('./routes/users')
 const productRouter = require('./routes/products')
 const categoryRouter = require('./routes/categories')
+
+app.use(cors())
 
 app.use(express.json())
 app.use(userRouter)

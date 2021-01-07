@@ -10,6 +10,7 @@ const auth = require("../middlewares/auth")
 router.get('/users', auth, async(req, res) => {
     try{
         const users = await User.find()
+        // res.header("Access-Control-Allow-Origin", "*")
         res.json(users)
     }
     catch(err){
@@ -69,12 +70,12 @@ router.post('/user/login', findUser, async (req, res)=> {
     try{
         const user = res.user
         if(user == null){
-            res.status(401).send({message: "Invalid user !"})
+            res.status(401).json({message: "Invalid user !"})
         }
         const token = genToken(user, process.env.KEY)
         user.token = token
         await user.save()
-        res.send(token)
+        res.json(token)
     }
     catch(err){
         res.status(500).json({message: err.message})
@@ -84,7 +85,7 @@ router.post('/user/login', findUser, async (req, res)=> {
 //get info
 router.get('/user/me', auth, async (req, res) => {
     try{
-        res.send(req.user)
+        res.json(req.user)
     }
     catch(err){
         res.status(500).json({message: err.message})
