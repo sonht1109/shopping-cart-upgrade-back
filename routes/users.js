@@ -23,7 +23,6 @@ router.post('/user/signup', async (req, res) => {
     try {
         const user = new User({
             email: body.email,
-            phone: body.phone,
             password: body.password
         })
 
@@ -42,7 +41,6 @@ router.patch('/user/me', auth, findUser, async(req, res)=> {
     const {body} = req
     try {
         const user = res.user
-        if(body.phone) user.phone = body.phone 
         if(body.newPassword) user.password = body.newPassword
         await user.save()
         res.status(200).json({message: "User updated !"})
