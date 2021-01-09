@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     inStock: {
-        type: Number,
+        type: Object,
         required: true
     },
     price: {

@@ -18,6 +18,7 @@ const categoryRouter = require('./routes/categories')
 
 app.use(cors())
 
+app.use(express.static('public'))
 app.use(express.json())
 app.use(userRouter)
 app.use(productRouter)

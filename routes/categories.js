@@ -5,9 +5,9 @@ const Category = require("../models/Category")
 const {findCate} = require('../controller/categorycontroller')
 
 //get all
-router.get('/categories', auth, async(req, res)=> {
+router.get('/categories', async(req, res)=> {
     try{
-        const cates = Category.find()
+        const cates = await Category.find()
         res.json(cates)
     }
     catch(err){

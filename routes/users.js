@@ -18,7 +18,7 @@ router.get('/users', auth, async(req, res) => {
     }
 })
 
-//create a user
+//sign up
 router.post('/user/signup', async (req, res) => {
     const {body} = req;
     try {
@@ -75,7 +75,7 @@ router.post('/user/login', findUser, async (req, res)=> {
         const token = genToken(user, process.env.KEY)
         user.token = token
         await user.save()
-        res.json(token)
+        res.json({user: user, token: token})
     }
     catch(err){
         res.status(500).json({message: err.message})
@@ -85,7 +85,12 @@ router.post('/user/login', findUser, async (req, res)=> {
 //get info
 router.get('/user/me', auth, async (req, res) => {
     try{
-        res.json(req.user)
+        const {user} = req;
+        res.json({
+            email: user.email,
+            role: user.role,
+            id: user._id
+        })
     }
     catch(err){
         res.status(500).json({message: err.message})

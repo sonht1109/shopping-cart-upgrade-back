@@ -4,10 +4,17 @@ const auth = require('../middlewares/auth')
 const router = express.Router()
 const mongoose = require("mongoose")
 const Product = require('../models/Product')
+const multer = require('multer')
+
+const upload = multer({dest: "./public/uploads"})
 
 //add a new product
-router.post("/product/add", async (req, res)=> {
-    const {name, category, inStock, price, img} = req.body
+router.post("/product/add", upload.single('img'), async (req, res)=> {
+    const {name, category, inStock, price} = req.body
+    // const img = req.file.path
+    const path = req.file.path
+    const img = path.substring(path.indexOf('/')+1, path.length)
+    console.log(img);
     try{
         const product = new Product({
             name, category, inStock, price, img
