@@ -9,18 +9,28 @@ const multer = require('multer')
 const upload = multer({dest: "./public/uploads"})
 
 //add a new product
-router.post("/product/add", upload.single('img'), async (req, res)=> {
+router.post("/product/add", auth, upload.single('img'), async (req, res)=> {
     const {name, category, inStock, price} = req.body
-    // const img = req.file.path
     const path = req.file.path
     const img = path.substring(path.indexOf('/')+1, path.length)
-    console.log(img);
     try{
         const product = new Product({
-            name, category, inStock, price, img
+            name, category, inStock: JSON.parse(inStock), price, img
         })
         await product.save()
         res.status(201).json({message: "Product added !"})
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
+})
+
+//get a product
+router.get("/product/:id", async(req, res)=>{
+    const {id} = req.params
+    try{
+        const product = await Product.findOne({_id: id})
+        res.json(product)
     }
     catch(err){
         res.status(500).json({message: err.message})
