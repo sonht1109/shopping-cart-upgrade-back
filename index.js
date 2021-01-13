@@ -15,6 +15,7 @@ db.once('open', ()=> console.log('db connected'))
 const userRouter = require('./routes/users')
 const productRouter = require('./routes/products')
 const categoryRouter = require('./routes/categories')
+const purchaseHistory = require('./routes/purchaseHistory')
 
 app.use(cors())
 
@@ -23,6 +24,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(productRouter)
 app.use(categoryRouter)
+app.use(purchaseHistory)
 
 app.listen(process.env.PORT, ()=> {
     console.log("Server is running !");
