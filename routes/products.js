@@ -26,11 +26,9 @@ router.post("/product/add", auth, upload.single('img'), async (req, res)=> {
 })
 
 //get a product
-router.get("/product/:id", async(req, res)=>{
-    const {id} = req.params
+router.get("/product/:id", findProduct, async(req, res)=>{
     try{
-        const product = await Product.findOne({_id: id})
-        res.json(product)
+        res.json(res.product)
     }
     catch(err){
         res.status(500).json({message: err.message})
