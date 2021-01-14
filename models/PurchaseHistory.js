@@ -11,6 +11,10 @@ const purchaseHistorySchema = new mongoose.Schema({
                 type: mongoose.Types.ObjectId,
                 required: true
             },
+            productName: {
+                type: String,
+                required: true
+            },
             size: {
                 type: String,
                 required: true
@@ -20,7 +24,12 @@ const purchaseHistorySchema = new mongoose.Schema({
                 required: true
             }
         }
-    ]
+    ],
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    }
 })
 
 module.exports = mongoose.model('PurchaseHistory', purchaseHistorySchema)

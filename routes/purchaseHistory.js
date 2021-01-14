@@ -21,7 +21,7 @@ router.post("/purchase", auth, async(req, res)=> {
 router.get("/purchase-history", auth, async(req, res)=> {
     try{
         const userId = req.user._id
-        const userHistory = PurchaseHistory.find({userId})
+        const userHistory = await PurchaseHistory.find({userId}).sort({date: -1})
         res.json(userHistory)
     }
     catch(err){
