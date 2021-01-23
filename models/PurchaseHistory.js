@@ -5,7 +5,25 @@ const purchaseHistorySchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true
     },
-    products:[
+    address: {
+        province: {
+            type: Number,
+            required: true,
+        },
+        district: {
+            type: Number,
+            required: true,
+        },
+        ward: {
+            type: Number,
+            required: true,
+        },
+        detail: {
+            type: String,
+            required: true
+        }
+    },
+    products: [
         {
             productId: {
                 type: mongoose.Types.ObjectId,
@@ -25,6 +43,10 @@ const purchaseHistorySchema = new mongoose.Schema({
             }
         }
     ],
+    fee: {
+        type: Number,
+        require: true
+    },
     date: {
         type: Date,
         required: true,

@@ -7,8 +7,8 @@ const PurchaseHistory = require("../models/PurchaseHistory")
 router.post("/purchase", auth, async(req, res)=> {
     try{
         const userId = req.user._id
-        const products = req.body
-        const history = new PurchaseHistory({userId, products})
+        const {products, address, fee} = req.body
+        const history = new PurchaseHistory({userId, products, address, fee})
         await history.save()
         res.status(200).json({message: "Purchase successfully !"})
     }
