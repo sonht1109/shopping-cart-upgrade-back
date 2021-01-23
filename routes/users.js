@@ -51,12 +51,13 @@ router.patch('/user/me', auth, findUser, async(req, res)=> {
 })
 
 //delete users
-router.delete('/user/delete', auth, async(req, res)=> {
-    const data = req.body;
+router.post('/user/delete', auth, async(req, res)=> {
+    const user = req.body;
     try{
-        await Promise.all(data.map(async item => {
-            await User.deleteOne({_id: item})
-        }))
+        // await Promise.all(data.map(async item => {
+        //     await User.deleteOne({_id: item})
+        // }))
+        await User.deleteOne({_id: user._id})
         .then(()=>res.status(200).json({message: "Users deleted !"}))
         .catch((err) => res.status(404).json({message: err.message}))
     }
