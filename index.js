@@ -27,5 +27,5 @@ app.use(categoryRouter)
 app.use(purchaseHistory)
 
 app.listen(process.env.PORT, ()=> {
-    console.log("Server is running !");
+    console.log(`Server is running in port ${process.env.PORT}`);
 })
